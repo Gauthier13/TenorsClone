@@ -1,0 +1,10 @@
+{
+    "musicians": [
+        {
+            "id": 1,
+            "name": "Corey Taylor",
+            "instruments": ["Guitar", "Singer", "Drum"],
+            "styles": ["heayve Metal", "Black Metal", "Death Metal"]
+        }
+    ]
+}

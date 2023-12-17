@@ -1,0 +1,52 @@
+{
+  "musicians": [
+    {
+      "id": 1,
+      "name": "Corey Taylor",
+      "instruments": [
+        "Guitar",
+        "Singer",
+        "Drum"
+      ],
+      "styles": [
+        "heayve Metal",
+        "Black Metal",
+        "Death Metal"
+      ]
+    },
+    {
+      "id": "008eb181-3244-4122-ad75-cdbbe5daa53f",
+      "name": "Thylacine",
+      "instruments": [
+        "DJ",
+        "Guitar",
+        "Drum"
+      ],
+      "styles": [
+        "House",
+        "Metal"
+      ]
+    },
+    {
+      "id": "6468661f-e982-42a5-9e13-bf059bf66d76",
+      "name": "Robin des Bois",
+      "instruments": [
+        "Flute en bois",
+        "pipot"
+      ],
+      "styles": [
+        "Romano"
+      ]
+    },
+    {
+      "id": "b6d1282f-08e2-44b7-8845-827c425a5c37",
+      "name": "Mimoune",
+      "instruments": [
+        "Piano"
+      ],
+      "styles": [
+        "Classique"
+      ]
+    }
+  ]
+}
