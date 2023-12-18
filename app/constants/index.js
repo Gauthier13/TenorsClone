@@ -11,7 +11,7 @@ export const NavbarLinks = [
 ];
 
 
-// -----------------LES FONCTIONS QUI SIMULENT MA CONNEXION À UNE BDD--------------------------
+// -----------------LES FONCTIONS QUI SIMULENT LA CONNEXION À UNE BDD--------------------------
 
 // récupérer les musiciens du fichier data.json
 export async function getMusicians() {
@@ -48,12 +48,9 @@ export async function storeMusician(data) {
   return fs.writeFile('data.json', updatedFile, 'utf-8')
 }
 
+// Update d'un musicien
 export async function updateMusician(data, id) {
 
-  console.log("data :" + JSON.stringify(data));
-  console.log("id :" + JSON.stringify(id));
-
-  // console.log("data depuis edit: "+ JSON.stringify(data));
   // on déclare un nouvel objet à qui on assigne les données mise à jour sur la page edit
   const updateMusician = {
     id: id,
@@ -61,19 +58,17 @@ export async function updateMusician(data, id) {
     instruments: data.instruments.split(', '),
     styles: data.styles.split(', ')
   }
-  console.log("updateMusician :" + JSON.stringify(updateMusician));
-
-  // console.log("updateMusician: "+ JSON.stringify(updateMusician));
 
   // On récupère le contenu fichier data.json 
   const contenu = await fs.readFile('data.json', 'utf-8');
   const db = JSON.parse(contenu)
   let updatedFile = null
 
+  // Ici on filtre la bdd pour récupérer l'id qui match avec celui de notre edit 
+  // Il existe probablement une manière plus élégante de filtrer
   for (let i = 0; i < db.musicians.length; i++) {
     if (updateMusician.id === db.musicians[i].id) {
-      db.musicians[i] = {...db.musicians[i], ...updateMusician}
-      console.log("TROUVÉ !: " + JSON.stringify(db, null,2));
+      db.musicians[i] = {...db.musicians[i], ...updateMusician} // A chaque fois que j'utilise un spread operator j'ai l'impression de faire quelque chose de bien
       updatedFile = JSON.stringify(db, null, 2)
     }
   }

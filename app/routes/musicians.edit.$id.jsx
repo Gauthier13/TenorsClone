@@ -1,8 +1,8 @@
 import Navbar from '../components/Navbar'
-import { Form, useActionData } from '@remix-run/react'
+import { Form } from '@remix-run/react'
 import { updateMusician } from '../constants';
 import { redirect } from '@remix-run/node';
-import { useSubmit, useParams } from '@remix-run/react';
+
 
 
 // Changer le titre de la page
@@ -18,13 +18,7 @@ export async function action({ request, params }) {
 
     // passer les données du nouveau musicien et son id à la fonction de stockage
     await updateMusician(musicianData, params.id);
-
     return redirect('/musicians')
-}
-
-export async function loader ({ params }) {
-
-    return null
 }
 
 const editMusician = () => {
@@ -35,10 +29,7 @@ const editMusician = () => {
                 <h1 className="font-bold text-xl">Edit musician's informations</h1>
             </div>
             <div className="flex flex-col items-center mt-4 justify-center mx-2 bg-white drop-shadow-lg rounded-2xl ">
-
-                <Form
-                    method="post"
-                >
+                <Form method="post">
                     <p className="flex items-center mb-2 mx-2 mt-2">
                         <label className="mr-2" htmlFor="name" id="name">Name: </label>
                         <input className="border-2 rounded-full px-4" type="text" placeholder="What's your name ?" name="name" required />
@@ -55,7 +46,6 @@ const editMusician = () => {
                     </p>
                     <button className="bg-green-400 rounded-lg px-2 hover:bg-green-500 mt-4">Update</button>
                 </Form>
-
             </div>
         </main>
     )
