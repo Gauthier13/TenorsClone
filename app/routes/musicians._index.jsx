@@ -1,8 +1,9 @@
 import Navbar from '../components/Navbar';
 import MusicianCard from '../components/MusicianCard';
 import { Link, useLoaderData } from '@remix-run/react';
-import { getMusicians, getAllInstruments } from "../constants"
+import { getMusicians, getAllInstruments, getAllStyles } from "../constants"
 import FilterByInstruments from '../components/FilterByInstruments';
+import FilterByStyle from '../components/FilterByStyle';
 
 
 // Changer le titre de la page
@@ -14,7 +15,8 @@ export const meta = () => {
 export async function loader() {
   const musicians = await getMusicians();
   const instruments = await getAllInstruments()
-  return { musicians: musicians, instruments: instruments }
+  const styles = await getAllStyles();
+  return { musicians: musicians, instruments: instruments, styles: styles }
 }
 
 export default function musiciansList() {
@@ -24,7 +26,10 @@ export default function musiciansList() {
   return (
     <div>
       <Navbar />
-      <FilterByInstruments instrumentsList={loaderData.instruments} />
+      <div className='flex bg-sky-100' >
+        <FilterByInstruments instrumentsList={loaderData.instruments} />
+        <FilterByStyle stylesList={loaderData.styles} />
+      </div>
       <div className='flex justify-center'>
         <Link to="/musicians/add" className="bg-green-400 mt-4 w-1/3 flex flex-col items-center justify-center px-4 py-4 rounded-3xl drop-shadow-lg hover:bg-green-600 transition duration-400 ">
           <p className="text-xl flex text-white font-bold ">Add Musician</p>

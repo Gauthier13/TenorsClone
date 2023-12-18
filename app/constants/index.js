@@ -43,6 +43,19 @@ export async function getAllInstruments() {
   return allInstruments
 }
 
+// Récupérer tout les styles (même fonction qu'au dessus)
+export async function getAllStyles() {
+  // On récupère les données dans le fichier json qui sert de bdd
+  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
+  // on le parse pour le rendre exploitable
+  const data = JSON.parse(rawFileContent);
+  const stylesList = data.musicians.reduce((instrumentsArray, musician) => {
+    return instrumentsArray.concat(musician.styles)
+  }, []);
+  const allStyles = [...new Set(stylesList)]
+  return allStyles
+}
+
 // stocker un nouveau musicien 
 export async function storeMusician(data) {
 
@@ -95,12 +108,18 @@ export async function updateMusician(data, id) {
   return fs.writeFile('data.json', updatedFile, 'utf-8')
 }
 
-
+// filtrer par instruments
 export async function filterInstrument (filter) {
-
+  
   const musicianList = await getMusicians();
   // avec le filter, tout les musciens qui contiennent un instrument = à la valeur du filtre, sont poussés dans un nouvel array 
   const filteredData = musicianList.filter(musician => musician.instruments.includes(filter.instruments));
+  return filteredData
+}
 
+// filtrer par style de musique
+export async function filterStyle (filter) {
+  const stylesList = await getMusicians();
+  const filteredData = stylesList.filter(musician => musician.styles.includes(filter.styles));
   return filteredData
 }

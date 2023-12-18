@@ -5,10 +5,16 @@ import Navbar from "../components/Navbar";
 import FilterByInstruments from "../components/FilterByInstruments";
 import { getMusicians, getAllInstruments } from "../constants";
 
+// Changer le titre de la page
+export const meta = () => {
+    return [{ title: "Musicians" }];
+  };
+  
+
 export async function action({ params }) {
     // récupérer les musiciens qui correspondent au filtre 
     const dataFilter = await filterInstrument(params)
-    return { musicians: dataFilter, intrumentName: params.instruments }
+    return { musicians: dataFilter, filter: params.filter }
 }
 
 // loader pour charger des données 
@@ -26,7 +32,7 @@ export default function musiciansByInstrument() {
             <Navbar />
             <FilterByInstruments instrumentsList={loaderData.instruments}/>
             <div className="flex justify-center mt-4 py-4 mb-4">
-                <h2 className="text-xl">Here's some musicians who knows how to play <span className="font-bold text-xl">{data.intrumentName}</span> !</h2>
+                <h2 className="text-xl">Here's some musicians who knows how to play <span className="font-bold text-xl">{data.filter}</span> !</h2>
             </div>
             <MusicianCard musicians={data.musicians} />
         </main>
