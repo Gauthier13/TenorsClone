@@ -24,6 +24,25 @@ export async function getMusicians() {
   return storedMusicians;
 }
 
+// Récupérer tout les instruments 
+export async function getAllInstruments() {
+  // On récupère les données dans le fichier json qui sert de bdd
+  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
+  // on le parse pour le rendre exploitable
+  const data = JSON.parse(rawFileContent);
+
+  // Avec reduce() on obtient en retour un tableau contenant tout les intrusments. 
+  // Malheureusment, si un musicien a plusieurs intrusments, ceux-ci sont rangés dans un tableau et le on obtient un tableau de tableaux.
+  // Fort heureusement, la fonction concat() permet de 'squeeze' tout les éléments d'un ou plusieurs tableaux en un unique tableau final, c'est presque parfait.
+  // Maitenant qu'on réunit dans un tableau unique tout les instruments, ça ne protège pas des doublons, il faut encore faire du ménage.
+  // C'est là qu'intervient le spread operator auquel on couple un new Set pour retirer les doublons.
+  const instrumentsList = data.musicians.reduce((instrumentsArray, musician) => {
+    return instrumentsArray.concat(musician.instruments)
+  }, []);
+  const allInstruments = [...new Set(instrumentsList)]
+  return allInstruments
+}
+
 // stocker un nouveau musicien 
 export async function storeMusician(data) {
 
@@ -68,10 +87,20 @@ export async function updateMusician(data, id) {
   // Il existe probablement une manière plus élégante de filtrer
   for (let i = 0; i < db.musicians.length; i++) {
     if (updateMusician.id === db.musicians[i].id) {
-      db.musicians[i] = {...db.musicians[i], ...updateMusician} // A chaque fois que j'utilise un spread operator j'ai l'impression de faire quelque chose de bien
+      db.musicians[i] = { ...db.musicians[i], ...updateMusician } // A chaque fois que j'utilise un spread operator j'ai l'impression de faire quelque chose de bien
       updatedFile = JSON.stringify(db, null, 2)
     }
   }
 
   return fs.writeFile('data.json', updatedFile, 'utf-8')
+}
+
+
+export async function filterInstrument (filter) {
+
+  const musicianList = await getMusicians();
+  // avec le filter, tout les musciens qui contiennent un instrument = à la valeur du filtre, sont poussés dans un nouvel array 
+  const filteredData = musicianList.filter(musician => musician.instruments.includes(filter.instruments));
+
+  return filteredData
 }
