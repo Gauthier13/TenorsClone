@@ -1,5 +1,4 @@
 // Pour accéder au système de fichiers
-import { log } from 'console';
 import fs from 'fs/promises';
 
 // Les liens de la nav bar
@@ -11,18 +10,23 @@ export const NavbarLinks = [
 ];
 
 
+
+
+
 // -----------------LES FONCTIONS QUI SIMULENT LA CONNEXION À UNE BDD--------------------------
 
-// récupérer les musiciens du fichier data.json
+
+// récupérer les musiciens du fichier data.json qui sert de bdd
 export async function getMusicians() {
   // récupérer le contenu du fichier data.json
   const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
   // on le parse pour le rendre exploitable
   const data = JSON.parse(rawFileContent);
-  // on ajoute les données de l'objet "musicians" s'il existe 
+  // on ajoute les données de l'objet "musicians" sinon, on ouvre un nouvel array
   const storedMusicians = data.musicians ?? [];
   return storedMusicians;
 }
+
 
 // Récupérer tout les instruments 
 export async function getAllInstruments() {
@@ -43,6 +47,7 @@ export async function getAllInstruments() {
   return allInstruments
 }
 
+
 // Récupérer tout les styles (même fonction qu'au dessus)
 export async function getAllStyles() {
   // On récupère les données dans le fichier json qui sert de bdd
@@ -55,6 +60,7 @@ export async function getAllStyles() {
   const allStyles = [...new Set(stylesList)]
   return allStyles
 }
+
 
 // stocker un nouveau musicien 
 export async function storeMusician(data) {
@@ -79,6 +85,8 @@ export async function storeMusician(data) {
   // écriture des nouvelles données dans le fichier qui nous sert de bdd 
   return fs.writeFile('data.json', updatedFile, 'utf-8')
 }
+
+
 
 // Update d'un musicien
 export async function updateMusician(data, id) {
@@ -108,18 +116,39 @@ export async function updateMusician(data, id) {
   return fs.writeFile('data.json', updatedFile, 'utf-8')
 }
 
-// filtrer par instruments
-export async function filterInstrument (filter) {
-  
-  const musicianList = await getMusicians();
-  // avec le filter, tout les musciens qui contiennent un instrument = à la valeur du filtre, sont poussés dans un nouvel array 
-  const filteredData = musicianList.filter(musician => musician.instruments.includes(filter.instruments));
-  return filteredData
-}
 
-// filtrer par style de musique
-export async function filterStyle (filter) {
-  const stylesList = await getMusicians();
-  const filteredData = stylesList.filter(musician => musician.styles.includes(filter.styles));
-  return filteredData
+// système de filtre des musiciens
+export async function filterMusicians(filter) {
+  // L'argument filter de la fonciton arrive sous forme de string dans contenant les valeurs du filtre séparées par des virgules
+  // Je commence par remodeler mon valeurs pour me créer un objet au format { instrument: filtreInstrument, typeDeFiltre: filtretype, style: filtreStyle}
+  const filterParams = filter.filterData.split(',')
+  const [instrument = '', filterType = '', style = ''] = filterParams;
+  const filterConfig = { instrument, filterType, style };
+  let isEmpty = false;
+
+  // On récupère tout les musiciens en bdd
+  const musicians = await getMusicians();
+
+  // Ici, on implémente la logique du système de filtre 
+  const musiciansList = musicians.filter(musician => {
+    // retourne tout les musiciens jouant de l'instrument recherché si le filtre instrument n'est pas un champ vide ( "" == All instruments)
+    const hasInstrument = filterConfig.instrument != "" ? musician.instruments.includes(filterConfig.instrument) : musician.instruments;
+    // retourne tout les musiciens jouant le style recherché si le filtre style n'est pas un champ vide ( "" == All styles)
+    const hasStyle = filterConfig.style != "" ? musician.styles.includes(filterConfig.style) : musician.styles;
+
+    // On gère le type de filtre
+    if (filterConfig.filterType === 'AND') {
+      return hasInstrument && hasStyle
+    } else if (filterConfig.filterType === 'OR') {
+      return hasInstrument || hasStyle
+    }
+    return 
+  })
+
+  // Si aucun musician ne correspond aux valeurs du filtre, isEmpty passe à true
+  if (musiciansList.length == 0) {
+    isEmpty = true
+  }
+
+  return { musiciansList: musiciansList, isEmpty: isEmpty, filterConfig: filterConfig}
 }

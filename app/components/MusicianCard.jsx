@@ -19,7 +19,7 @@ const MusicianCard = ({ musicians }) => {
                                 <h3 className="text-lg mb-2">Instruments</h3>
                                 <ul className="flex flex-wrap gap-2 justify-start">
                                     {data.instruments.map((instru, index) => (
-                                        <li key={index} className="bg-[#E3F2FF] rounded-full px-3 py-1 text-[#204566] font-bold">{instru}</li>
+                                        <li key={instru} className="bg-[#E3F2FF] rounded-full px-3 py-1 text-[#204566] font-bold">{instru}</li>
                                     ))}
                                 </ul>
                             </div>
@@ -29,7 +29,7 @@ const MusicianCard = ({ musicians }) => {
                                 <h3 className="text-lg mb-2">Style</h3>
                                 <ul className="flex flex-wrap gap-2 justify-start">
                                     {data.styles.map((style, index) => (
-                                        <li key={index} className="bg-[#D6FFB0] rounded-full px-3 py-1 text-[#4C6634] font-bold">{style}</li>
+                                        <li key={style} className="bg-[#D6FFB0] rounded-full px-3 py-1 text-[#4C6634] font-bold">{style}</li>
                                     ))}
                                 </ul>
                             </div>
