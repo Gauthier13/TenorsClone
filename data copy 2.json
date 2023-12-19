@@ -49,45 +49,16 @@
       ]
     }
   ],
-  "concerts": [
+  "concerts" : [
     {
       "id": "21354351eefzf",
       "name": "DnB allStar",
       "style": "Rock",
-      "address": {
+      "adress": { 
         "street": "31 Avenue de machin",
-        "city": "Bordeaux"
+        "city" : "Bordeaux"
       },
-      "date": "date"
-    },
-    {
-      "id": "f1fdc455-e336-47c7-baf3-1bfcb74c51b1",
-      "name": "Motocultor",
-      "address": {
-        "street": "31, Cours Saint Louis",
-        "city": "Saint Nolff"
-      },
-      "style": "Metal"
-    },
-    {
-      "id": "cec8d47b-4098-4297-a9a8-2c375d10ce4c",
-      "name": "Download",
-      "address": {
-        "street": "Bretigny sur Orge",
-        "city": "tokyo"
-      },
-      "style": "Metal",
-      "date": "2024-02-09"
-    },
-    {
-      "id": "cfa9ccee-fd07-4646-bd83-018f2e994831",
-      "name": "Hellfest",
-      "address": {
-        "street": "Clisson",
-        "city": "Saint Nolff"
-      },
-      "style": "Metal",
-      "date": "2024-05-11"
+      "date" : "date"
     }
   ]
 }

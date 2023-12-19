@@ -64,7 +64,6 @@ export async function getAllStyles() {
 
 // stocker un nouveau musicien 
 export async function storeMusician(data) {
-
   // ici le split permet d'isoler chaque mot séparés par une virgule pour les ajouter dans un array
   // cette méthode n'est pas du tout idéale et ne protège pas des erreurs
   const newMusician = {
@@ -90,7 +89,6 @@ export async function storeMusician(data) {
 
 // Update d'un musicien
 export async function updateMusician(data, id) {
-
   // on déclare un nouvel objet à qui on assigne les données mise à jour sur la page edit
   const updateMusician = {
     id: id,
@@ -142,7 +140,7 @@ export async function filterMusicians(filter) {
     } else if (filterConfig.filterType === 'OR') {
       return hasInstrument || hasStyle
     }
-    return 
+    return
   })
 
   // Si aucun musician ne correspond aux valeurs du filtre, isEmpty passe à true
@@ -150,5 +148,74 @@ export async function filterMusicians(filter) {
     isEmpty = true
   }
 
-  return { musiciansList: musiciansList, isEmpty: isEmpty, filterConfig: filterConfig}
+  return { musiciansList: musiciansList, isEmpty: isEmpty, filterConfig: filterConfig }
+}
+
+
+
+// récupérer les concerts du fichier data.json qui sert de bdd
+export async function getConcerts() {
+  // récupérer le contenu du fichier data.json
+  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
+  // on le parse pour le rendre exploitable
+  const data = JSON.parse(rawFileContent);
+  // on ajoute les données de l'objet "musicians" sinon, on ouvre un nouvel array
+  const storedConcerts = data.concerts ?? [];
+  return storedConcerts;
+}
+
+
+
+// ajouter un nouveau concert
+export async function storeConcert(data) {
+
+  const newConcert = {
+    id: data.id,
+    name: data.name.charAt(0).toUpperCase() + data.name.slice(1), // pour forcer la 1ere lettre en majuscule
+    address: {
+      street: data.street,
+      city: data.city
+    },
+    style: data.style.charAt(0).toUpperCase() + data.style.slice(1),
+    date: data.date
+  }
+  // Lire le contenu actuel du fichier JSON
+  const contenu = await fs.readFile('data.json', 'utf-8');
+  const db = JSON.parse(contenu)
+
+  // si note bdd contient un objet musicien, on push. Sinon, on crée un array vide
+  db.concerts ? db.concerts.push(newConcert) : db.concerts = []
+
+  // convertir les données en json pour les écrire sur le fichier data.json ensuite
+  const updatedFile = JSON.stringify(db, null, 2)
+  // écriture des nouvelles données dans le fichier qui nous sert de bdd 
+  return fs.writeFile('data.json', updatedFile, 'utf-8')
+}
+
+
+// Update un concert
+export async function updateConcert(data, id) {
+  const updateConcert = {
+    id: id,
+    name: data.name.charAt(0).toUpperCase() + data.name.slice(1), // pour forcer la 1ere lettre en majuscule
+    address: {
+      street: data.street,
+      city: data.city
+    },
+    style: data.style.charAt(0).toUpperCase() + data.style.slice(1),
+    date: data.date
+  }
+
+  const contenu = await fs.readFile('data.json', 'utf-8');
+  const db = JSON.parse(contenu)
+  let updatedFile = null
+
+  for (let i = 0; i < db.concerts.length; i++) {
+    if (updateConcert.id === db.concerts[i].id) {
+      db.concerts[i] = { ...db.concerts[i], ...updateConcert } 
+      updatedFile = JSON.stringify(db, null, 2)
+    }
+  }
+
+  return fs.writeFile('data.json', updatedFile, 'utf-8')
 }
