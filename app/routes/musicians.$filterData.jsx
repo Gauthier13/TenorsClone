@@ -1,5 +1,4 @@
 import { Link, useActionData, useLoaderData } from "@remix-run/react"
-
 import MusicianCard from "../components/MusicianCard";
 import Navbar from "../components/Navbar";
 import { getMusicians, getAllInstruments, getAllStyles } from "../constants";
@@ -56,3 +55,8 @@ export default function musiciansByInstrument() {
         </main>
     )
 }
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+    return <div>{error.message}</div>;
+  }
