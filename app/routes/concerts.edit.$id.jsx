@@ -1,7 +1,8 @@
 import Navbar from '../components/Navbar'
 import { Form } from '@remix-run/react'
-import { updateConcert } from '../constants';
+import { deleteEvent, updateConcert } from '../constants';
 import { redirect } from '@remix-run/node';
+import { useNavigate } from "@remix-run/react";
 
 // Changer le titre de la page
 export const meta = () => {
@@ -9,16 +10,29 @@ export const meta = () => {
 };
 
 export async function action({ request, params }) {
+
     // extraire les données du formulaire et les convertir
     const formData = await request.formData();
-    const concertData = Object.fromEntries(formData);
+    const intent = formData.get("intent")
 
-    // passer les données du nouveau concert et son id à la fonction de stockage
-    await updateConcert(concertData, params.id);
-    return redirect('/concerts')
+
+    // gérer les actions selon le bouton 
+    switch (intent) {
+        case "update": {
+            const concertData = Object.fromEntries(formData);
+            // passer les données du nouveau concert et son id à la fonction de stockage
+            await updateConcert(concertData, params.id);
+            return redirect('/concerts')
+        }
+        case "delete": {
+            await deleteEvent(params.id)
+            return redirect('/concerts') // Ce choix n'est pas idéal car si l'utilisateur n'était pas précédemment sur cette page, il y sera reconduit quand même ce qui peut le perdre et
+        }
+    }
 }
 
 export default function editEvent() {
+    const navigate = useNavigate();
     return (
         <div className="flex flex-col items-center mt-4 justify-center mx-2 bg-white drop-shadow-lg rounded-2xl ">
             <div className="flex justify-center mt-2 mb-4">
@@ -53,9 +67,15 @@ export default function editEvent() {
                     <label for="eventDate">Event date:</label>
                     <input type="date" id="date" name="date" className="mx-2 border-2 rounded-full px-4"></input>
                 </div>
-                <button className="bg-green-400 rounded-lg px-2 hover:bg-green-500 my-4">Update event</button>
+                <button type='submit' name='intent' value='update' className="bg-green-400 rounded-lg px-2 hover:bg-green-500 my-4">Update event</button>
             </Form>
-
+            <Form method='post'>
+                <button
+                    type='submit'
+                    name='intent'
+                    value='delete'
+                    className="bg-red-400 rounded-lg px-2 hover:bg-red-500 my-4">Delete event</button>
+            </Form>
         </div>
     )
 }

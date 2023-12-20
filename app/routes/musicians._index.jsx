@@ -25,7 +25,7 @@ export default function musiciansList() {
     <div>
       <Navbar />
       <div className='flex bg-sky-100' >
-        <MusicianFilter instrumentsList={loaderData.instruments} stylesList={loaderData.styles} />
+        <MusicianFilter instrumentsList={loaderData.instruments} stylesList={loaderData.styles.musicianStyle} />
       </div>
       <div className='flex justify-center'>
         <Link to="/musicians/add" className="bg-green-400 mt-4 w-1/3 flex flex-col items-center justify-center px-4 py-4 rounded-3xl drop-shadow-lg hover:bg-green-600 transition duration-400 ">

@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react"
 export default function ConcertCard({ concerts }) {
     return (
         <main className="mx-2 sm:mx-1 md:mx-4 lg:mx-10 mt-2 justify-center">
-            <div className="w-auto mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+            <div className="w-auto mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {
                     concerts.map((data) => (
                         <div className=" bg-gradient-to-b from-[#c31432] to-[#240b36] flex-col px-4 py-4 rounded-3xl drop-shadow-lg hover:scale-[1.02] ease-in-out duration-300">
@@ -24,7 +24,6 @@ export default function ConcertCard({ concerts }) {
                         </div>
                     ))
                 }
-
             </div>
         </main>
     )

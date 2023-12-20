@@ -18,12 +18,12 @@ export async function action({ params }) {
     return { musicians: dataIsFilter.musiciansList, isEmpty: dataIsFilter.isEmpty, filterConfig: dataIsFilter.filterConfig }
 }
 
-// loader pour charger des données 
+// loader pour charger des données nécessaire au fonctionnement des composants 
 export async function loader() {
     const musicians = await getMusicians();
     const instruments = await getAllInstruments()
     const styles = await getAllStyles();
-    return { musicians: musicians, instruments: instruments, styles: styles }
+    return { musicians: musicians, instruments: instruments, styles: styles.musicianStyle }
 }
 
 export default function musiciansByInstrument() {
@@ -59,4 +59,4 @@ export default function musiciansByInstrument() {
 export function ErrorBoundary() {
     const error = useRouteError();
     return <div>{error.message}</div>;
-  }
+}

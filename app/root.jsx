@@ -45,7 +45,7 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        <div className=" flex-col flex justify-center items-center">
+        <div className="flex-col flex justify-center items-center">
           <img src={errorImage} alt="error image" className="w-full h-auto"/>
           <div className="absolute flex flex-col justify-center items-center px-10 py-8 mt-20 bg-slate-50 rounded-3xl shadow-lg">
             <h1 className="text-xl font-bold my-2">Ho no ! An error occured...</h1>
