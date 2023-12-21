@@ -1,6 +1,5 @@
 // Pour accéder au système de fichiers
 import fs from 'fs/promises';
-import { allowedNodeEnvironmentFlags } from 'process';
 
 // Les liens de la nav bar
 // Je les déclare ici dans le but de venir les afficher dans mon composant ensuite.
@@ -12,7 +11,7 @@ export const NavbarLinks = [
 
 
 
-// -----------------LES FONCTIONS QUI SIMULENT LA CONNEXION À UNE BDD--------------------------
+// -----------------LES FONCTIONS QUI SIMULENT LA CONNEXION À UNE BDD-------------------------- // 
 
 
 
@@ -29,15 +28,6 @@ export async function getMusicians() {
 }
 
 
-export async function getCopyDB() {
-    // récupérer le contenu du fichier data.JSON
-    const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-    // on le parse pour le rendre exploitable
-    const data = JSON.parse(rawFileContent);
-    // on ajoute les données de l'objet "musicians" sinon, on ouvre un nouvel array
-    const db = data ?? [];
-    return db;
-}  
 
 
 
@@ -104,9 +94,8 @@ export async function storeMusician(data) {
     styles: data.styles.split(', ')
   }
   // Lire le contenu actuel du fichier JSON
-  // const contenu = await fs.readFile('data.json', 'utf-8');
-  // const db = JSON.parse(contenu)
-  const db = await getCopyDB();
+  const contenu = await fs.readFile('data.json', 'utf-8');
+  const db = JSON.parse(contenu)
 
   // si note bdd contient un objet musicien, on push. Sinon, on crée un array vide
   db.musicians ? db.musicians.push(newMusician) : db.musicians = []
@@ -114,8 +103,7 @@ export async function storeMusician(data) {
   // convertir les données en json pour les écrire sur le fichier data.json ensuite
   const updatedFile = JSON.stringify(db, null, 2)
   // écriture des nouvelles données dans le fichier qui nous sert de bdd 
-  // return fs.writeFile('data.json', updatedFile, 'utf-8')
-  return true
+  return fs.writeFile('data.json', updatedFile, 'utf-8')
 }
 
 
@@ -183,7 +171,8 @@ export async function filterMusicians(filter) {
     isEmpty = true
   }
 
-  return { musiciansList: musiciansList, isEmpty: isEmpty, filterConfig: filterConfig } // cette fonction retourne alors un objet qui contient toutes les infos demandées
+  // cette fonction retourne alors un objet qui contient toutes les infos demandées
+  return { musiciansList: musiciansList, isEmpty: isEmpty, filterConfig: filterConfig } 
 }
 
 

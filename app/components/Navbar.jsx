@@ -1,10 +1,9 @@
 import { NavbarLinks } from "../constants"
-import { Link, Form } from "@remix-run/react"
+import { Link } from "@remix-run/react"
 import logo from '../assets/images/logo.svg'
 import hamburger from '../assets/icons/hamburger.svg'
 
 const Navbar = () => {
-    let isOpen = false
     return (
         <nav className="flex justify-between items-center z-10 px-10 py-5 bg-[#E3F2FF] drop-shadow-lg">
             {/* LOGO LANDING PAGE */}

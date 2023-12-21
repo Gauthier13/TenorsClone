@@ -11,16 +11,6 @@ export const meta = () => {
 };
 
 
-// export async function action({ request, params }) {
-//     // extraire les données du formulaire et les convertir
-//     const formData = await request.formData();
-//     const musicianData = Object.fromEntries(formData);
-
-//     // passer les données du nouveau musicien et son id à la fonction de stockage
-//     await updateMusician(musicianData, params.id);
-//     return redirect('/musicians')
-// }
-
 export async function action({ request, params }) {
 
     // extraire les données du formulaire et les convertir
