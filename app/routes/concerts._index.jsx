@@ -8,9 +8,9 @@ export const meta = () => {
     return [{ title: "Concerts" }];
 };
 
+
 export async function loader() {
     const concerts = await getConcerts();
-    console.log("concerts: " + JSON.stringify(concerts, null, 2));
     return concerts
 }
 

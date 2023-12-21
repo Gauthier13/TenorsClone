@@ -47,6 +47,19 @@
       "styles": [
         "Classique"
       ]
+    },
+    {
+      "id": "e32643ab-1525-4325-be21-5ebf03d7e13f",
+      "name": "Corey taylor",
+      "instruments": [
+        "Guitar",
+        "Sing",
+        "Drum"
+      ],
+      "styles": [
+        "Nu metal",
+        "Grunge"
+      ]
     }
   ],
   "concerts": [

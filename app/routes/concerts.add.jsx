@@ -45,10 +45,10 @@ export default function addConcert() {
                         <div className="flex justify-center items-center mb-8 mx-2">
                             <label for="city" className="mr-2">City: </label>
                             <select id="city" name="city" className="border-2 rounded-full px-4">
-                                <option value="Saint Nolff">Saint Nolff</option>
-                                <option value="london">Londres</option>
-                                <option value="berlin">Berlin</option>
-                                <option value="tokyo">Tokyo</option>
+                            <option value="Carhaix">Carhaix</option>
+                            <option value="Clisson">Clisson</option>
+                            <option value="Crozon">Crozon</option>
+                            <option value="Quéménéven">Quéménéven</option>
                             </select>
                         </div>
                     </div>

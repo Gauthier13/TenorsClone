@@ -12,8 +12,8 @@ export const meta = () => {
 };
 
 export async function action({ params }) {
-    console.log("params: " + JSON.stringify(params.filterData, null, 2));
     const concertFilteredData = await filterConcert(params.filterData)
+    console.log("params: "+ JSON.stringify(params));
     return concertFilteredData
 }
 

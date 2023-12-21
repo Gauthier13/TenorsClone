@@ -10,6 +10,7 @@ export const meta = () => {
   return [{ title: "Home" }];
 };
 
+
 export async function loader() {
   const musicians = await getMusicians()
   const concerts = await upComingEvents()

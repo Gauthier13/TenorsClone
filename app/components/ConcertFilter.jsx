@@ -29,7 +29,9 @@ export default function ConcertFilter({ stylesList }) {
                         ))}
                     </select>
                 </div>
+
                 {selectedStyle != '' ? <button className="bg-green-300 px-2 mx-2 rounded-sm hover:bg-green-400 active:bg-green-200">Filter</button> : null}
+
             </Form>
         </div>
     )

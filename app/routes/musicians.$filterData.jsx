@@ -1,4 +1,4 @@
-import { Link, useActionData, useLoaderData } from "@remix-run/react"
+import { Link, useActionData, useLoaderData, useRouteError } from "@remix-run/react"
 import MusicianCard from "../components/MusicianCard";
 import Navbar from "../components/Navbar";
 import { getMusicians, getAllInstruments, getAllStyles } from "../constants";
@@ -6,15 +6,17 @@ import { filterMusicians } from "../constants";
 import MusicianFilter from "../components/MusicianFilter";
 
 
+
 // Changer le titre de la page
 export const meta = () => {
     return [{ title: "Musicians" }];
-};
+}; 
 
 
 export async function action({ params }) {
     // récupérer les musiciens qui correspondent au filtre 
     const dataIsFilter = await filterMusicians(params)
+    console.log(dataIsFilter);
     return { musicians: dataIsFilter.musiciansList, isEmpty: dataIsFilter.isEmpty, filterConfig: dataIsFilter.filterConfig }
 }
 

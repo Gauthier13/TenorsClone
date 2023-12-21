@@ -1,20 +1,54 @@
 {
   "musicians": [
     {
+      "id": 1,
+      "name": "Corey Taylor",
+      "instruments": [
+        "Guitar",
+        "Singer",
+        "Drum"
+      ],
+      "styles": [
+        "heayve Metal",
+        "Black Metal",
+        "Death Metal"
+      ]
+    },
+    {
       "id": "008eb181-3244-4122-ad75-cdbbe5daa53f",
       "name": "Thylacine",
       "instruments": [
         "DJ",
-        "Piano",
-        "Guitar"
+        "Guitar",
+        "Drum"
       ],
       "styles": [
-        "Electronic"
+        "House",
+        "Metal"
+      ]
+    },
+    {
+      "id": "6468661f-e982-42a5-9e13-bf059bf66d76",
+      "name": "Robin des Bois",
+      "instruments": [
+        "Flute en bois",
+        "pipot"
+      ],
+      "styles": [
+        "Romano"
+      ]
+    },
+    {
+      "id": "b6d1282f-08e2-44b7-8845-827c425a5c37",
+      "name": "Mimoune",
+      "instruments": "piano, flute",
+      "styles": [
+        "classique"
       ]
     },
     {
       "id": "e32643ab-1525-4325-be21-5ebf03d7e13f",
-      "name": "Corey Taylor",
+      "name": "Corey taylor",
       "instruments": [
         "Guitar",
         "Sing",
@@ -24,61 +58,29 @@
         "Nu metal",
         "Grunge"
       ]
-    },
-    {
-      "id": "8198303d-3666-44e2-b465-0d0bfaba0b27",
-      "name": "John Lennon",
-      "instruments": [
-        "Piano",
-        "Guitar",
-        "Singer"
-      ],
-      "styles": [
-        "Rock"
-      ]
-    },
-    {
-      "id": "f9535b50-7dd0-45aa-975c-365bc2a771a6",
-      "name": "Paul McCartney",
-      "instruments": [
-        "Bass guitar"
-      ],
-      "styles": [
-        "Rock"
-      ]
-    },
-    {
-      "id": "0e47b158-f6c2-4f96-9893-b8ac1efb2e1f",
-      "name": "George Harrisson",
-      "instruments": [
-        "Guitar"
-      ],
-      "styles": [
-        "Rock"
-      ]
-    },
-    {
-      "id": "111b08eb-a08d-4438-a922-efa2f2170223",
-      "name": "Ringo Starr",
-      "instruments": [
-        "Drum"
-      ],
-      "styles": [
-        "Rock"
-      ]
-    },
-    {
-      "id": "085b46a9-1a70-44f1-9830-39323abd6a9d",
-      "name": "Max Cavalera",
-      "instruments": [
-        "Singer"
-      ],
-      "styles": [
-        "Trash Metal"
-      ]
     }
   ],
   "concerts": [
+    {
+      "id": "e9ac9a26-0bb0-4ff4-8759-1585f6bc4094",
+      "name": "Motocultor",
+      "address": {
+        "street": "Rue Kérampuilh",
+        "city": "Carhaix"
+      },
+      "style": "Metal",
+      "date": "2024-08-15"
+    },
+    {
+      "id": "8a555bfc-5eef-499f-8aa1-4474939bdee3",
+      "name": "From Fest",
+      "address": {
+        "street": "Rue du Bon Goût",
+        "city": "Quéménéven"
+      },
+      "style": "Cheesy",
+      "date": "2023-08-26"
+    },
     {
       "id": "ce21005d-7474-4ae2-b3b2-94d59d9e0c4b",
       "name": "Hellfest",
@@ -86,8 +88,8 @@
         "street": "Rue du Champ Louet",
         "city": "Clisson"
       },
-      "style": "Metal",
-      "date": "2024-06-17"
+      "style": "Metal ",
+      "date": "2024-06-27"
     },
     {
       "id": "132e940b-ec74-4be7-8d6e-7d9c8f07c172",
@@ -128,6 +130,16 @@
       },
       "style": "Metal ",
       "date": "2022-12-22"
+    },
+    {
+      "id": "a320f65b-e875-4f8e-b994-31ef075a6ccc",
+      "name": "Hilight Tribe",
+      "address": {
+        "street": "Ici et là",
+        "city": "Crozon"
+      },
+      "style": "Psytrance ",
+      "date": "2023-06-03"
     }
   ]
 }

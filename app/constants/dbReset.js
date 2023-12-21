@@ -1,6 +1,5 @@
 // Pour accéder au système de fichiers
 import fs from 'fs/promises';
-import { allowedNodeEnvironmentFlags } from 'process';
 
 // Les liens de la nav bar
 // Je les déclare ici dans le but de venir les afficher dans mon composant ensuite.
@@ -12,48 +11,34 @@ export const NavbarLinks = [
 
 
 
-// -----------------LES FONCTIONS QUI SIMULENT LA CONNEXION À UNE BDD--------------------------
 
+// -----------------  LES FONCTIONS QUI SIMULENT LA CONNEXION À UNE BDD  -------------------------- //
+
+
+//---------------    Créer une copie du fichier data.json pour que tout se réinitialise à la fermeture du navigateur.
+// Toute la logique implémenter dans ce fichier fonctionne à 99% !
+
+// Ce qui bloque : le système de filtre musiciens et concerts ne fonctionne plus. Ce système fonctionne avec des params que je viens piocher dans l'URL mais je ne comprends pas pourquoi la logique ne fonctionne plus ici et les params sont vides. Les fonctions ici sont identiques à celles du fichier index.js à la différence près qu'ici on se base sur une copie du data.json et qu'on le ne le manipule plus du tout ensuite (dans le but que tout se réinitialise aux valeurs initiales au redémmarage)   -----------------------------------//
+
+
+
+// Créer une copie du fichier data.json qui sert de bdd
+const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
+// on le parse pour le rendre exploitable
+const data = JSON.parse(rawFileContent);
+export let db = data;
 
 
 // récupérer les musiciens du fichier data.json qui sert de bdd
 export async function getMusicians() {
-  // récupérer le contenu du fichier data.JSON
-  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-  // on le parse pour le rendre exploitable
-  const data = JSON.parse(rawFileContent);
-  // on ajoute les données de l'objet "musicians" sinon, on ouvre un nouvel array
-  const storedMusicians = data.musicians ?? [];
-
+  const storedMusicians = db.musicians
   return storedMusicians;
 }
 
 
-export async function getCopyDB() {
-    // récupérer le contenu du fichier data.JSON
-    const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-    // on le parse pour le rendre exploitable
-    const data = JSON.parse(rawFileContent);
-    // on ajoute les données de l'objet "musicians" sinon, on ouvre un nouvel array
-    const db = data ?? [];
-    return db;
-}  
-
-
-
 // Récupérer tout les instruments 
 export async function getAllInstruments() {
-  // On récupère les données dans le fichier json qui sert de bdd
-  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-  // on le parse pour le rendre exploitable
-  const data = JSON.parse(rawFileContent);
-
-  // Avec reduce() on obtient en retour un tableau contenant tout les intrusments. 
-  // Malheureusment, si un musicien a plusieurs intrusments, ceux-ci sont rangés dans un tableau et le on obtient un tableau de tableaux.
-  // Fort heureusement, la fonction concat() permet de 'squeeze' tout les éléments d'un ou plusieurs tableaux en un unique tableau final, c'est presque parfait.
-  // Maitenant qu'on réunit dans un tableau unique tout les instruments, ça ne protège pas des doublons, il faut encore faire du ménage.
-  // C'est là qu'intervient le spread operator auquel on couple un new Set pour retirer les doublons.
-  const instrumentsList = data.musicians.reduce((instrumentsArray, musician) => {
+  const instrumentsList = db.musicians.reduce((instrumentsArray, musician) => {
     return instrumentsArray.concat(musician.instruments)
   }, []);
   const allInstruments = [...new Set(instrumentsList)]
@@ -66,14 +51,10 @@ export async function getAllInstruments() {
 
 // Récupérer tout les styles de musique parmis les musiciens
 export async function getAllStyles() {
-  // On récupère les données dans le fichier json qui sert de bdd
-  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-  // on le parse pour le rendre exploitable
-  const data = JSON.parse(rawFileContent);
 
   // récupérer les styles des musiciens
-  const stylesList = data.musicians.reduce((instrumentsArray, musician) => {
-    return instrumentsArray.concat(musician.styles)
+  const stylesList = db.musicians.reduce((musicianStyleArray, musician) => {
+    return musicianStyleArray.concat(musician.styles)
   }, []);
 
   // récupérer les styles des concerts à venir car ce filtre ne sera présent que sur la homepage
@@ -103,19 +84,11 @@ export async function storeMusician(data) {
     instruments: data.instruments.split(', '),
     styles: data.styles.split(', ')
   }
-  // Lire le contenu actuel du fichier JSON
-  // const contenu = await fs.readFile('data.json', 'utf-8');
-  // const db = JSON.parse(contenu)
-  const db = await getCopyDB();
 
   // si note bdd contient un objet musicien, on push. Sinon, on crée un array vide
   db.musicians ? db.musicians.push(newMusician) : db.musicians = []
 
-  // convertir les données en json pour les écrire sur le fichier data.json ensuite
-  const updatedFile = JSON.stringify(db, null, 2)
-  // écriture des nouvelles données dans le fichier qui nous sert de bdd 
-  // return fs.writeFile('data.json', updatedFile, 'utf-8')
-  return true
+  return console.log("Le profil de musicien a été ajouté");
 }
 
 
@@ -131,21 +104,14 @@ export async function updateMusician(data, id) {
     styles: data.styles.split(', ')
   }
 
-  // On récupère le contenu fichier data.json 
-  const contenu = await fs.readFile('data.json', 'utf-8');
-  const db = JSON.parse(contenu)
-  let updatedFile = null
-
   // Ici on filtre la bdd pour récupérer l'id qui match avec celui de notre edit 
   // Il existe probablement une manière plus élégante de filtrer
   for (let i = 0; i < db.musicians.length; i++) {
     if (updateMusician.id === db.musicians[i].id) {
       db.musicians[i] = { ...db.musicians[i], ...updateMusician } // A chaque fois que j'utilise un spread operator j'ai l'impression de faire quelque chose de bien
-      updatedFile = JSON.stringify(db, null, 2)
     }
   }
-
-  return fs.writeFile('data.json', updatedFile, 'utf-8')
+  return console.log("Le profil de musician a été mis à jour")
 }
 
 
@@ -158,9 +124,10 @@ export async function filterMusicians(filter) {
   const [instrument = '', filterType = '', style = ''] = filterParams;
   const filterConfig = { instrument, filterType, style };
   let isEmpty = false;
+  console.log(filterConfig);
 
   // On récupère tout les musiciens en bdd
-  const musicians = await getMusicians();
+  const musicians = await db.musicians
 
   // Ici, on implémente toute la logique du système de filtre 
   const musiciansList = musicians.filter(musician => {
@@ -177,38 +144,29 @@ export async function filterMusicians(filter) {
     }
     return
   })
-
   // Si aucun musician ne correspond aux valeurs du filtre, isEmpty passe à true
   if (musiciansList.length == 0) {
     isEmpty = true
   }
-
   return { musiciansList: musiciansList, isEmpty: isEmpty, filterConfig: filterConfig } // cette fonction retourne alors un objet qui contient toutes les infos demandées
 }
 
 
 
+
+
 // récupérer les concerts du fichier data.json qui sert de bdd
 export async function getConcerts() {
-  // récupérer le contenu du fichier data.json
-  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-  // on le parse pour le rendre exploitable
-  const data = JSON.parse(rawFileContent);
-  // on ajoute les données de l'objet "musicians" sinon, on ouvre un nouvel array
-  const storedConcerts = data.concerts ?? [];
-
+  const storedConcerts = db.concerts ?? [];
   return storedConcerts;
 }
 
 
 
+
 // Retourne les concerts par date de la plus proche à la plus éloignée en retirant les évènements antérieurs à la date du jour
 export async function upComingEvents() {
-  // récupérer les concerts du fichier data.json
-  const rawFileContent = await fs.readFile('data.json', { encoding: 'utf-8' });
-  const data = JSON.parse(rawFileContent);
-  const storedConcerts = data.concerts
-
+  const storedConcerts = db.concerts
   // Ici on implémente la logique permettant de trier les concerts par date, du plus récent au moins récent en retirant les concerts déjà passés
   const currentDate = new Date(); // sert de point de comparaison pour le filter ensuite
   const upComingEvents = storedConcerts
@@ -216,7 +174,6 @@ export async function upComingEvents() {
     .sort((a, b) => { // 1ère étape : logique de classement des concerts des plus récents au moins récents en comparant 2 dates
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-
       return dateA - dateB; // ça fonctionne bien !
     });
   return upComingEvents;
@@ -237,17 +194,10 @@ export async function storeConcert(data) {
     style: data.style.charAt(0).toUpperCase() + data.style.slice(1),
     date: data.date
   }
-  // Lire le contenu actuel du fichier JSON
-  const contenu = await fs.readFile('data.json', 'utf-8');
-  const db = JSON.parse(contenu)
-
   // si note bdd contient un objet concerts, on push. Sinon, on crée un array vide
   db.concerts ? db.concerts.push(newConcert) : db.concerts = []
 
-  // convertir les données en json pour les écrire sur le fichier data.json ensuite
-  const updatedFile = JSON.stringify(db, null, 2)
-  // écriture des nouvelles données dans le fichier qui nous sert de bdd 
-  return fs.writeFile('data.json', updatedFile, 'utf-8')
+  return console.log("Le concert a été ajouté");
 }
 
 
@@ -266,18 +216,13 @@ export async function updateConcert(data, id) {
     date: data.date
   }
 
-  const contenu = await fs.readFile('data.json', 'utf-8');
-  const db = JSON.parse(contenu)
-  let updatedFile = null
   // même logique que pour la fonction updateMusician déclarée plus haut 
   for (let i = 0; i < db.concerts.length; i++) {
     if (updateConcert.id === db.concerts[i].id) {
       db.concerts[i] = { ...db.concerts[i], ...updateConcert }
-      updatedFile = JSON.stringify(db, null, 2)
     }
   }
-
-  return fs.writeFile('data.json', updatedFile, 'utf-8')
+  return console.log("Le concert a été mis à jour");
 }
 
 
@@ -295,20 +240,12 @@ export async function filterConcert(style) {
 
 // DELETE Event
 export async function deleteEvent(id) {
-
-  // Lire le contenu actuel du fichier JSON
-  const contenu = await fs.readFile('data.json', 'utf-8');
-  const db = JSON.parse(contenu)
-  let updatedFile = null
-
   const concertId = db.concerts.findIndex(concert => concert.id === id); // Retourne le concert qui match l'id ou -1 si aucun ne correspond
 
   if (concertId !== -1) {
     db.concerts.splice(concertId, 1)   // Suppression du concert à l'id correspondante
-    updatedFile = JSON.stringify(db, null, 2) // convertir les données en json pour les écrire sur le fichier data.json ensuite
   }
-
-  return fs.writeFile('data.json', updatedFile, 'utf-8')
+  return console.log("Le concert a été supprimé");
 }
 
 
@@ -317,17 +254,9 @@ export async function deleteEvent(id) {
 
 // DELETE Musician
 export async function deleteMusician(id) {
-  // Lire le contenu actuel du fichier JSON
-  const contenu = await fs.readFile('data.json', 'utf-8');
-  const db = JSON.parse(contenu)
-  let updatedFile = null
-
   const musicianId = db.musicians.findIndex(musician => musician.id === id); // Retourne le concert qui match l'id ou -1 si aucun ne correspond
-
   if (musicianId !== -1) {
     db.musicians.splice(musicianId, 1)   // Suppression du concert à l'id correspondante
-    updatedFile = JSON.stringify(db, null, 2) // convertir les données en json pour les écrire sur le fichier data.json ensuite
   }
-
-  return fs.writeFile('data.json', updatedFile, 'utf-8')
+  return console.log("Le musicien a été supprimé");
 }
