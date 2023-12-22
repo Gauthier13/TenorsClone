@@ -24,15 +24,15 @@ export default function Index() {
     <div className="bg-slate-100" style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <Navbar />
       <div className="mx-10 my-4">
-        <h1 className="text-xl font-bold">Admin Panel</h1>
+        <h2 className="text-xl font-bold">Admin Panel</h2>
       </div>
       <section className="flex flex-col bg-white justify-center items-center shadow-xl mx-10 rounded-xl py-4">
-        <h1 className="text-2xl font-bold">Upcoming Events</h1>
+        <h2 className="text-2xl font-bold">Upcoming Events</h2>
         <ConcertFilter stylesList={loaderData.style}/>
         <ConcertCard concerts={loaderData.concerts} />
       </section>
       <section className="flex flex-col mt-4 bg-white justify-center items-center shadow-xl mx-10 rounded-xl py-4">
-        <h1 className="text-2xl font-bold mt-4">All available musicians</h1>
+        <h2 className="text-2xl font-bold mt-4">All available musicians</h2>
         <MusicianCard musicians={loaderData.musicians} />
       </section>
     </div>

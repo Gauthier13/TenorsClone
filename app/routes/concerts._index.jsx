@@ -8,7 +8,7 @@ export const meta = () => {
     return [{ title: "Concerts" }];
 };
 
-
+// Retourne tout les concerts, même ceux ayant une date antérieur à celle du jour
 export async function loader() {
     const concerts = await getConcerts();
     return concerts

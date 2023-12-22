@@ -34,6 +34,10 @@ export default function App() {
   );
 }
 
+
+// Remix propose une solution générale pour gérer les erreurs que j'ai implémenter ici.
+// Toutefois, implémenter comme ici cela ne permet pas d'avoir des erreurs contextuelles et retourne une page identique à toute les erreurs.
+// Il est possible de faire mieux et j'ai choisi cette solution dans un premier temps pour me consacrer à développer le reste des fonctionnalités. 
 export function ErrorBoundary() {
   const error = useRouteError();
   console.error(error);

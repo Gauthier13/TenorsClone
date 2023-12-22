@@ -6,7 +6,6 @@ import { filterMusicians } from "../constants";
 import MusicianFilter from "../components/MusicianFilter";
 
 
-
 // Changer le titre de la page
 export const meta = () => {
     return [{ title: "Musicians" }];
@@ -46,9 +45,9 @@ export default function musiciansByInstrument() {
                         </Link>
                     </div> :
                     <h2 className="text-xl">Here's some musicians who knows how to play
-                        <span className="font-bold text-xl"> {data.filterConfig.style != "" ? data.filterConfig.style : " All styles"}</span>
-                        <span className="font-bold text-3xl"> {data.filterConfig.filterType} </span>
-                        <span className="font-bold text-xl"> {data.filterConfig.instrument != "" ? data.filterConfig.instrument : "All instruments"} </span>
+                        <span className="font-bold text-xl text-red-400"> {data.filterConfig.style != "" ? data.filterConfig.style : " All styles"}</span>
+                        <span className="font-bold text-3xl text-red-400"> {data.filterConfig.filterType} </span>
+                        <span className="font-bold text-xl text-red-400"> {data.filterConfig.instrument != "" ? data.filterConfig.instrument : "All instruments"} </span>
                         !
                     </h2>
                 }

@@ -14,7 +14,6 @@ export async function action({ request, params }) {
     const formData = await request.formData();
     const intent = formData.get("intent")
 
-
     // gérer les actions selon le bouton 
     switch (intent) {
         case "update": {

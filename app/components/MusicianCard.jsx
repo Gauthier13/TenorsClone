@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react"
 
 
-const MusicianCard = ({ musicians }) => {
+export default function MusicianCard ({ musicians }) {
     return (
         <main className="mx-2 sm:mx-1 md:mx-4 lg:mx-10 mt-2 justify-center">
             <div className="w-auto mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
@@ -13,12 +13,12 @@ const MusicianCard = ({ musicians }) => {
                             <h2 className="font-bold pr-4">{data.name}</h2>
                         </div>
 
-                        {/* Liste instruments */}
+                        {/* Liste instruments ------ Je pense que l'erreur 'each child ... unique key' vient d'ici car mes instruments n'ont pas d'id unique et cela viendrai de la manière dont mes données sont déclarées dans le data.json */}
                         <div className="flex flex-col">
                             <div className="mt-4 mx-2 flex flex-col items-center">
-                                <h3 className="text-lg mb-2">Instruments</h3>
+                                <h3 className="text-lg mb-2">🎺 Instruments</h3>
                                 <ul className="flex flex-wrap gap-2 justify-start">
-                                    {data.instruments.map((instru, index) => (
+                                    {data.instruments.map((instru) => (
                                         <li key={instru} className="bg-[#E3F2FF] rounded-full px-3 py-1 text-[#204566] font-bold">{instru}</li>
                                     ))}
                                 </ul>
@@ -28,7 +28,7 @@ const MusicianCard = ({ musicians }) => {
                             <div className="mt-4 mx-2 flex flex-col items-center">
                                 <h3 className="text-lg mb-2">Style</h3>
                                 <ul className="flex flex-wrap gap-2 justify-start">
-                                    {data.styles.map((style, index) => (
+                                    {data.styles.map((style) => (
                                         <li key={style} className="bg-[#D6FFB0] rounded-full px-3 py-1 text-[#4C6634] font-bold">{style}</li>
                                     ))}
                                 </ul>
@@ -46,5 +46,3 @@ const MusicianCard = ({ musicians }) => {
         </main>
     )
 }
-
-export default MusicianCard

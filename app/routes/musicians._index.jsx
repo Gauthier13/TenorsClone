@@ -10,7 +10,7 @@ export const meta = () => {
   return [{ title: "Musicians" }];
 };
 
-// loader pour charger des données 
+// loader pour charger des données à distribuer entre les composants ensuite
 export async function loader() {
   const musicians = await getMusicians();
   const instruments = await getAllInstruments()
@@ -19,7 +19,6 @@ export async function loader() {
 }
 
 export default function musiciansList() {
-  // utiliser les données retournées par le loader
   const loaderData = useLoaderData();
   return (
     <div>

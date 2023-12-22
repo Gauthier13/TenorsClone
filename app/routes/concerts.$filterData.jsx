@@ -11,17 +11,17 @@ export const meta = () => {
     return [{ title: "Concerts by style" }];
 };
 
+// Envoyer les params au serveur pour un traitement dans la fonction filterConcert
 export async function action({ params }) {
     const concertFilteredData = await filterConcert(params.filterData)
-    console.log("params: "+ JSON.stringify(params));
     return concertFilteredData
 }
 
-
+// Retourne les styles des concerts à venir
 export async function loader() {
     const style = await getAllStyles();
     return { style: style.eventStyle }
-  }
+}
 
 export default function concertsByStyle() {
     const actionData = useActionData()

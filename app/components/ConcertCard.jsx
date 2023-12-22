@@ -12,8 +12,8 @@ export default function ConcertCard({ concerts }) {
                             </div>
                             <div className="flex flex-col justify-center items-center mt-10">
                                 <h3 className="font-bold text-white text-xl">📍 Address</h3>
-                                <p className="text-white">{data.address.street}, <span>{data.address.city}</span></p>
-                                <p className="text-white mt-1">{data.date}</p>
+                                <p className="text-white ">{data.address.street}, <span>{data.address.city}</span></p>
+                                <p className=" mt-1 px-4 rounded-full bg-slate-50 text-black">{data.date}</p>
                                 <p className="mt-4 bg-slate-50 font-bold text-black px-4 rounded-full drop-shadow-lg">{data.style}</p>
                             </div>
                             <div className="flex flex-col justify-center items-center mt-10">

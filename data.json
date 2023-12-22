@@ -128,6 +128,26 @@
       },
       "style": "Metal ",
       "date": "2022-12-22"
+    },
+    {
+      "id": "01087e77-9e30-49a9-a5e1-7214d71f13bf",
+      "name": "Les 3 fromages",
+      "address": {
+        "street": "31 Cours Pasteur",
+        "city": "Crozon"
+      },
+      "style": "Punk",
+      "date": "2023-09-07"
+    },
+    {
+      "id": "3162ec19-7545-468d-91be-2af2179f823c",
+      "name": "Highlight Tribe",
+      "address": {
+        "street": "2, Rue Grande",
+        "city": "Clisson"
+      },
+      "style": "Psy trance",
+      "date": "2023-04-12"
     }
   ]
 }
